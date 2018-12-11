@@ -1,0 +1,37 @@
+html,
+body {
+  height: 100%;
+  background-color: gainsboro;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.square {
+  height: 100px;
+}
+
+.square:hover {
+  background-color: white;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+.square {
+  position: relative;
+}
+
+.far,
+.fas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+}
