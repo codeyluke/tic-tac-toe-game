@@ -1,5 +1,6 @@
 const squares = document.querySelectorAll(".square");
 const result = document.querySelector("#result");
+const toggleBtn = document.querySelector(".btn-secondary");
 const player1 = `<i class="fas fa-times"></i>`;
 const player2 = `<i class="far fa-circle"></i>`;
 const comp = `<i class="fas fa-desktop"></i>`;
@@ -39,6 +40,18 @@ function restart() {
 }
 
 /*Choosing the player or AI*/
+function chooseOppo() {
+  if (!compAI) {
+    compAI = true;
+    toggleBtn.innerHTML = `Play with People`;
+    console.log(compAI);
+  } else {
+    compAI = false;
+    toggleBtn.innerHTML = `Play with AI`;
+    console.log(compAI);
+  }
+  restart();
+}
 
 /*Players or AI Functions*/
 function firstPlayer(e, square) {
@@ -109,7 +122,7 @@ for (let i = 0; i < squares.length; i++) {
 
 /* Check the winner after 4 movesMade, tie or win on the 9 movesMade */
 function checkWinner(movesMade, player1Data, player2Data, comData) {
-  if (movesMade < 10 && winner == false) {
+  if (movesMade < 9 && winner == false) {
     //make the strings into num to be compared with the winningCombos
     let firstDataNum = player1Data.map(num => parseInt(num));
     let secDataNum = player2Data.map(num => parseInt(num));
@@ -166,3 +179,10 @@ function stopGame() {
     notDisabled[i].classList.add("disabled");
   }
 }
+
+//CANT SOLVE THE TIE!!
+//line 125 if movesMade < 10 solve the issue to get the winner on the last try
+//if movesMade < 9 solves the issue for the tie. So issue with either.
+//one of the way i was going to solve it, is my going through the classes since
+//after I click it there would be classes of disabled and taken.
+//maybe I could loop them and make another conditional statement again?
