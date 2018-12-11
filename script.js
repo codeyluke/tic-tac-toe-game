@@ -107,29 +107,24 @@ for (let i = 0; i < squares.length; i++) {
   };
 }
 
-//check winner after 4 moves then
-//tie at the 9 moves if no winner
+/* Check the winner after 4 movesMade, tie or win on the 9 movesMade */
 function checkWinner(movesMade, player1Data, player2Data, comData) {
-  //make the strings into num to be compared with the winningCombos
-
-  if (movesMade < 9 && winner == false) {
+  if (movesMade < 10 && winner == false) {
+    //make the strings into num to be compared with the winningCombos
     let firstDataNum = player1Data.map(num => parseInt(num));
     let secDataNum = player2Data.map(num => parseInt(num));
     let comDataNum = comData.map(num => parseInt(num));
 
     for (let i = 0; i < winningCombos.length; i++) {
-      if (winner) {
-        break;
-      }
       if (
         firstDataNum.includes(winningCombos[i][0]) &&
         firstDataNum.includes(winningCombos[i][1]) &&
         firstDataNum.includes(winningCombos[i][2])
       ) {
-        //debugger;
         winner = true;
         stopGame();
         result.innerHTML = `<h5>The winner is Player 1</h5>`;
+        break;
       } else if (
         secDataNum.includes(winningCombos[i][0]) &&
         secDataNum.includes(winningCombos[i][1]) &&
@@ -148,6 +143,10 @@ function checkWinner(movesMade, player1Data, player2Data, comData) {
       }
     }
   } else {
+    if (movesMade == 9 && winner) {
+      stopGame();
+      result.innerHTML = `<h5>The winner is Player 1</h5>`;
+    }
     stopGame();
     result.innerHTML = `<h5>It's a tie</h5>`;
   }
