@@ -24,7 +24,7 @@ const winningCombos = [
   [2, 4, 6]
 ];
 
-/*Restart the game*/
+/* ======== Restart the game ======== */
 function restart() {
   for (let i = 0; i < squares.length; i++) {
     squares[i].classList.remove("disabled", "taken");
@@ -39,21 +39,21 @@ function restart() {
   comData = [];
 }
 
-/*Choosing the player or AI*/
+/* ======== Choosing the player or AI ======== */
 function chooseOppo() {
   if (!compAI) {
     compAI = true;
     toggleBtn.innerHTML = `Play with People`;
-    console.log(compAI);
+    //console.log(compAI);
   } else {
     compAI = false;
     toggleBtn.innerHTML = `Play with AI`;
-    console.log(compAI);
+    //console.log(compAI);
   }
   restart();
 }
 
-/*Players or AI Functions*/
+/* ======== Players or AI Functions ======== */
 function firstPlayer(e, square) {
   e.target.innerHTML = player1;
   currentTurn = false;
@@ -94,35 +94,9 @@ function comPlayer() {
   }
 }
 
-/*
-Letting the user play & storing 
-the data into their respective array
-STORING the ID instead then we can 
-compare to the winning arrays
-*/
-for (let i = 0; i < squares.length; i++) {
-  squares[i].onclick = function(e) {
-    if (currentTurn && compAI) {
-      firstPlayer(e, squares[i]);
-      comPlayer();
-
-      currentTurn = true;
-    } else if (currentTurn) {
-      firstPlayer(e, squares[i]);
-    } else {
-      secPlayer(e, squares[i]);
-    }
-
-    console.log(movesMade);
-    //checking for winner or tie
-
-    checkWinner(movesMade, player1Data, player2Data, comData);
-  };
-}
-
-/* Check the winner after 4 movesMade, tie or win on the 9 movesMade */
+/* ======== Check the winner after 4 movesMade, tie or win on the 9 movesMade ======== */
 function checkWinner(movesMade, player1Data, player2Data, comData) {
-  if (movesMade < 9 && winner == false) {
+  if (movesMade < 10 && winner == false) {
     //make the strings into num to be compared with the winningCombos
     let firstDataNum = player1Data.map(num => parseInt(num));
     let secDataNum = player2Data.map(num => parseInt(num));
@@ -155,17 +129,17 @@ function checkWinner(movesMade, player1Data, player2Data, comData) {
         result.innerHTML = `<h5>The winner is the Computer</h5>`;
       }
     }
-  } else {
-    if (movesMade == 9 && winner) {
-      stopGame();
-      result.innerHTML = `<h5>The winner is Player 1</h5>`;
-    }
+  }
+  //Even the movesMade is less than 9 in this round,
+  //no conditions would have been met because there was no winner
+  //so it would enter this if statement to make it a tie
+  if (movesMade == 9 && winner == false) {
     stopGame();
     result.innerHTML = `<h5>It's a tie</h5>`;
   }
 }
 
-/* STOP THE GAME */
+/* ================ STOP THE GAME ================ */
 function stopGame() {
   let notDisabled = [];
 
@@ -180,9 +154,28 @@ function stopGame() {
   }
 }
 
-//CANT SOLVE THE TIE!!
-//line 125 if movesMade < 10 solve the issue to get the winner on the last try
-//if movesMade < 9 solves the issue for the tie. So issue with either.
-//one of the way i was going to solve it, is my going through the classes since
-//after I click it there would be classes of disabled and taken.
-//maybe I could loop them and make another conditional statement again?
+/* =================================
+Letting the user play & storing 
+the data into their respective array
+STORING the ID instead then we can 
+compare to the winning arrays
+==================================== */
+for (let i = 0; i < squares.length; i++) {
+  squares[i].onclick = function(e) {
+    if (currentTurn && compAI) {
+      firstPlayer(e, squares[i]);
+      comPlayer();
+
+      currentTurn = true;
+    } else if (currentTurn) {
+      firstPlayer(e, squares[i]);
+    } else {
+      secPlayer(e, squares[i]);
+    }
+
+    //console.log(movesMade);
+
+    //checking for the winner or tie
+    checkWinner(movesMade, player1Data, player2Data, comData);
+  };
+}
